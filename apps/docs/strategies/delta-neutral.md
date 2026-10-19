@@ -94,12 +94,11 @@ A backtest is driven by a scenario plus the strategy configuration. Money and
 rate values are fixed-point decimal strings, never JavaScript numbers, and
 carry at most seven decimal places. The strategy configuration exposes:
 
-| Option                 | Meaning                                     | Safe range                      |
-| ---------------------- | ------------------------------------------- | ------------------------------- |
-| `initialCapitalQuote`  | Starting quote capital, as a decimal string | Greater than zero               |
-| `targetLeverage`       | Gross leverage applied to each leg          | `1` to `20` inclusive           |
-| `neutralityBandBps`    | Allowed net-delta drift, in basis points    | Positive; commonly `20` to `50` |
-| `rebalanceSlippageBps` | Cost applied to each rebalance fill         | Small and non-negative          |
+| Option             | Meaning                                     | Safe range                      |
+| ------------------ | ------------------------------------------- | ------------------------------- |
+| `capital`          | Starting quote capital, as a decimal string | Greater than zero               |
+| `targetLeverage`   | Gross leverage applied to each leg          | `1` to `20` inclusive           |
+| `rebalanceBandBps` | Allowed net-delta drift, in basis points    | Positive; commonly `20` to `50` |
 
 The scenario that carries them is the single input a run is reproduced from:
 the same scenario and seed always yield the same run. A scenario describes a
@@ -150,6 +149,10 @@ dominant contributor to `netPnl`, and keeps `pricePnl` close to zero. A run
 where `pricePnl` dominates means the hedge stopped tracking; a run with a
 large `totalRebalances` means the band is too narrow for the volatility and
 fees are eating the carry.
+
+> **Planned metrics.** The metrics above are the intended summary fields and
+> are not yet all exposed on `RunReport`. Treat them as planned until the
+> report interface catches up.
 
 ## Risks and limits
 
